@@ -1,0 +1,92 @@
+{
+  "slot_01": {
+    "uid": "slot_01",
+    "name": "Mary (Wife)",
+    "role": "Daily Transit / Office Grid",
+    "assignedZone": "Commercial Sub-Sector 08",
+    "monitoredNodeId": "SHIELD_NODE_ALPHA",
+    "alertThresholdPreference": 0.65,
+    "isConfigured": true
+  },
+  "slot_02": {
+    "uid": "slot_02",
+    "name": "Brian (Son)",
+    "role": "School Zone Safety Vector",
+    "assignedZone": "Kindergarten Micro-Grid 04",
+    "monitoredNodeId": "SHIELD_NODE_BETA",
+    "alertThresholdPreference": 0.55,
+    "isConfigured": true
+  },
+  "slot_03": {
+    "uid": "slot_03",
+    "name": "[Empty Memory Slot 03]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_03",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_04": {
+    "uid": "slot_04",
+    "name": "[Empty Memory Slot 04]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_04",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_05": {
+    "uid": "slot_05",
+    "name": "[Empty Memory Slot 05]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_05",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_06": {
+    "uid": "slot_06",
+    "name": "[Empty Memory Slot 06]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_06",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_07": {
+    "uid": "slot_07",
+    "name": "[Empty Memory Slot 07]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_07",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_08": {
+    "uid": "slot_08",
+    "name": "[Empty Memory Slot 08]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_08",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_09": {
+    "uid": "slot_09",
+    "name": "[Empty Memory Slot 09]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_09",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  },
+  "slot_10": {
+    "uid": "slot_10",
+    "name": "[Empty Memory Slot 10]",
+    "role": "Unassigned",
+    "assignedZone": "None",
+    "monitoredNodeId": "NODE_10",
+    "alertThresholdPreference": 0.6,
+    "isConfigured": false
+  }
+}

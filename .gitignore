@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# Python environment & bytecode
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Security Keys and Environment Vectors
+.env
+server/.env
+ml/.env
+
+# Local logs or build distributions
+dist/
+*.log
