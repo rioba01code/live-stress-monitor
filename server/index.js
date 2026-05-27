@@ -1,35 +1,45 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
-const axios = require('axios'); // Integrated for Cross-Service ML Bus Communications
+const axios = require('axios');
 const mongoose = require('mongoose');
-const { User, HardwareSlot, TelemetryLog } = require('./SystemModels'); // Links our Mongoose Schemas
+
+const { User, HardwareSlot, TelemetryLog } = require('./SystemModels');
 
 const app = express();
-const PORT = 5001;
-const JWT_SECRET_KEY = 'NEUROCITY_SECURE_CRYPTO_BUS_KEY_2026';
+const PORT = process.env.PORT || 5001;
+
+// ⚠️  secrets  code
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 app.use(cors());
 app.use(express.json());
+// =========================================================
+// MONGO DB CONNECTION (FIXED + SAFE)
+// =========================================================
 
-// =========================================================================
-// MONGO PERSISTENT DATABASE ENGINE LINK & AUTO-SEEDING (ATLAS UPGRADED)
-// =========================================================================
-// Official secure cloud connection string using updated cluster endpoints and credentials
-const MONGO_URI = 'mongodb+srv://brianrioba01_db_user:rioba01code@cluster0.m1ktsbv.mongodb.net/neurocity_biomed?appName=Cluster0';
+// Only ONE source of truth for Mongo URI
+const mongoURI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI)
-  .then(() => {
+if (!mongoURI) {
+    console.error('❌ MONGO_URI is not defined in environment variables');
+    process.exit(1);
+}
+
+// Fixed: Removed deprecated useNewUrlParser and useUnifiedTopology options
+mongoose.connect(mongoURI)
+.then(() => {
     console.log('🔌 [Database Subsystem] Secure cloud pipeline link to MongoDB Atlas verified.');
     console.log('🚀 [Database Subsystem] Cluster Instance: cluster0.m1ktsbv.mongodb.net');
-  })
-  .catch(err => {
+})
+.catch(err => {
     console.error('❌ [Database Subsystem] Cloud Handshake Fault!');
     console.error('👉 Diagnostic Details:', err.message || err);
-  });
-
+});
 // Auto-Seeding Database Hardware Slot Allocations upon initial boot state
 async function verifyAndSeedHardwareMatrix() {
   try {
