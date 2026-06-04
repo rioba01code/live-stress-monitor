@@ -11,7 +11,7 @@ export default function SignupForm({
     <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
       <div>
         <label style={{ display: 'block', fontSize: '0.7rem', color: '#718096', fontWeight: 'bold', marginBottom: '6px' }}>
-          FULL OPERATIONAL NAME
+          FULL NAME
         </label>
         <input 
           type="text" 
@@ -25,7 +25,7 @@ export default function SignupForm({
 
       <div>
         <label style={{ display: 'block', fontSize: '0.7rem', color: '#718096', fontWeight: 'bold', marginBottom: '6px' }}>
-          CRYPTOGRAPHIC NODE EMAIL
+           EMAIL
         </label>
         <input 
           type="email" 
@@ -39,7 +39,7 @@ export default function SignupForm({
 
       <div>
         <label style={{ display: 'block', fontSize: '0.7rem', color: '#718096', fontWeight: 'bold', marginBottom: '6px' }}>
-          TELEMETRY LINK PHONE
+          PHONE NUMBER
         </label>
         <input 
           type="text" 
@@ -53,7 +53,7 @@ export default function SignupForm({
 
       <div>
         <label style={{ display: 'block', fontSize: '0.7rem', color: '#718096', fontWeight: 'bold', marginBottom: '6px' }}>
-          SECURE TRANSMISSION PASSWORD
+          PASSWORD
         </label>
         <input 
           type="password" 
@@ -69,7 +69,7 @@ export default function SignupForm({
         type="submit" 
         style={{ backgroundColor: '#00ffcc', color: '#07080d', fontWeight: 'bold', border: 'none', padding: '14px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.95rem', marginTop: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}
       >
-        CREATE NODE TERMINAL
+        CREATE ACCOUNT
       </button>
 
       <div style={{ textAlign: 'center', marginTop: '15px', fontSize: '0.85rem' }}>

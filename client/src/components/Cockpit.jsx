@@ -77,10 +77,10 @@ function CalculusWaveforms({ telemetryData, primaryAccent }) {
     <div style={{ backgroundColor: '#11121d', padding: '22px', borderRadius: '12px', border: '1px solid #1e2030', marginBottom: '25px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
         <span style={{ color: '#718096', fontSize: '0.65rem', fontWeight: 'bold', textTransform: 'uppercase', fontFamily: 'monospace' }}>
-          🧠 Dynamic Somatic State Signal Waveform (Real-time Calculus Trace)
+          🧠 Real-Time Body Response Tracker
         </span>
         <span style={{ fontSize: '0.65rem', backgroundColor: '#0c0d14', color: primaryAccent, padding: '3px 8px', borderRadius: '4px', fontFamily: 'monospace', border: `1px solid ${primaryAccent}40` }}>
-          LIVE FEED REFRESH RATE: 60 FPS
+          Live Data Stream
         </span>
       </div>
       <canvas ref={canvasRef} width={750} height={180} style={{ width: '100%', backgroundColor: '#0c0d14', borderRadius: '8px', border: '1px solid #1e2030' }} />
@@ -90,14 +90,23 @@ function CalculusWaveforms({ telemetryData, primaryAccent }) {
 
 /**
  * Main Cockpit Workarea View Panel Component
+ * Intercepts real-time human subject profile matrices.
  */
-export default function Cockpit({ data, dynamicAccent }) {
+export default function Cockpit({ data, dynamicAccent, selectedSubjectId, subjects = [] }) {
+  // Find the matching human tracking profile from the state array
+  const activeSubject = subjects.find(sub => sub._id === selectedSubjectId);
+
+  // Dynamic calculus/fallback variables resolution
+  const displayName = activeSubject ? activeSubject.name : (data?.currentFamilySession?.name || 'Mary');
+  const displayCategory = activeSubject ? activeSubject.profileCategory : 'Legacy Hardware Channel';
+  const displayNotes = activeSubject ? (activeSubject.metadata?.notes || 'No calibration metrics log notes available.') : (data?.currentFamilySession?.assignedZone || 'Evaluating GPS Frame');
+
   return (
     <div>
       {/* Metrics Row - Locked to symmetric 50/50 division layout */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px' }}>
         
-        {/* Active Telemetry Profile Card with Overflow Protections */}
+        {/* Active Telemetry Profile Card with Custom Dynamic Mappings */}
         <div style={{ 
           backgroundColor: '#11121d', 
           padding: '25px', 
@@ -111,15 +120,25 @@ export default function Cockpit({ data, dynamicAccent }) {
         }}>
           {/* Left Text Block */}
           <div style={{ minWidth: '0', flex: '1', marginRight: '15px' }}>
-            <span style={{ color: '#718096', fontSize: '0.65rem', fontWeight: 'bold', textTransform: 'uppercase', fontFamily: 'monospace', display: 'block' }}>Active Telemetry Channel Profile</span>
+            <span style={{ color: '#718096', fontSize: '0.65rem', fontWeight: 'bold', textTransform: 'uppercase', fontFamily: 'monospace', display: 'block' }}>Active Individual Profile</span>
+            
             <h2 style={{ margin: '4px 0', color: '#fff', fontSize: '1.6rem', fontWeight: '700', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {data?.currentFamilySession?.name || 'Loading Base.sys...'}
+              {displayName}
             </h2>
+            
+            {/* NEW: DYNAMIC APPLICATION ENVELOPE TAG FOCUS */}
+            <div style={{ display: 'inline-flex', alignItems: 'center', margin: '4px 0 8px 0', backgroundColor: 'rgba(0, 255, 204, 0.04)', border: '1px solid rgba(0, 255, 204, 0.15)', padding: '2px 8px', borderRadius: '4px' }}>
+              <span style={{ fontSize: '0.65rem', color: dynamicAccent, fontFamily: 'monospace', fontWeight: 'bold' }}>
+                FOCUS: {displayCategory}
+              </span>
+            </div>
+
             <p style={{ margin: '2px 0 0 0', fontSize: '0.85rem', color: '#a0aec0', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              Sector Location: <strong>{data?.currentFamilySession?.assignedZone || 'Evaluating GPS Frame'}</strong>
+              Monitoring Context: <strong style={{ color: '#cbd5e0' }}>{displayNotes}</strong>
             </p>
+            
             <div style={{ marginTop: '12px', fontSize: '0.75rem', color: dynamicAccent, fontFamily: 'monospace', fontWeight: 'bold' }}>
-              {data?.statusHeadline || 'Syncing ML Core...'}
+              {activeSubject ? `AI CORE MAPPED SUCCESSFULLY — [AGE: ${activeSubject.age || 'N/A'}]` : (data?.statusHeadline || 'Syncing ML Core...')}
             </div>
           </div>
           
@@ -128,18 +147,18 @@ export default function Cockpit({ data, dynamicAccent }) {
             <span style={{ fontSize: '3.2rem', fontWeight: '900', color: '#fff', fontFamily: 'monospace', lineHeight: '1' }}>
               {data?.predictiveAnalytics?.currentHsi !== undefined ? Math.round(data.predictiveAnalytics.currentHsi * 100) : 0}%
             </span>
-            <div style={{ fontSize: '0.6rem', color: '#718096', fontWeight: 'bold', marginTop: '4px', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>SOMATIC INDEX</div>
+            <div style={{ fontSize: '0.6rem', color: '#718096', fontWeight: 'bold', marginTop: '4px', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>WELLNESS INDEX</div>
           </div>
         </div>
 
         {/* Ingestion Stream Status Card */}
         <div style={{ backgroundColor: '#11121d', padding: '20px', borderRadius: '12px', border: '1px solid #1e2030', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
-            <span style={{ color: '#718096', fontSize: '0.65rem', display: 'block', fontWeight: 'bold', fontFamily: 'monospace' }}>NETWORK DATA BUS RECEPTION CLOCK RATE</span>
-            <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#fff', marginTop: '5px', fontFamily: 'monospace' }}>1 Hz Ingestion Cycle</div>
+            <span style={{ color: '#718096', fontSize: '0.65rem', display: 'block', fontWeight: 'bold', fontFamily: 'monospace' }}>Data Update Frequency</span>
+            <div style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#fff', marginTop: '5px', fontFamily: 'monospace' }}>1-Second Update Interval</div>
           </div>
           <div style={{ borderTop: '1px solid #1e2030', paddingTop: '10px' }}>
-            <span style={{ color: '#4a5568', fontSize: '0.6rem', display: 'block', fontFamily: 'monospace' }}>TOTAL INGESTED FRAMES</span>
+            <span style={{ color: '#4a5568', fontSize: '0.6rem', display: 'block', fontFamily: 'monospace' }}>📊 Total Monitoring Records</span>
             <span style={{ fontSize: '0.9rem', color: '#fff', fontFamily: 'monospace', fontWeight: 'bold' }}>{data?.packetSequence || 0} Sequences</span>
           </div>
         </div>
@@ -151,13 +170,13 @@ export default function Cockpit({ data, dynamicAccent }) {
       {/* Secondary Signal Evaluation Deck */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '25px' }}>
         
-        {/* Discrete Fourier Transform Bands */}
+        {/* Discrete Fourier Transform Bands30HZ and 120 HZ */}
         <div style={{ backgroundColor: '#11121d', padding: '22px', borderRadius: '10px', border: '1px solid #1e2030' }}>
-          <h3 style={{ margin: '0 0 15px 0', fontSize: '0.75rem', color: '#fff', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.5px' }}>🔬 Discrete Fourier (FFT) Bands</h3>
+          <h3 style={{ margin: '0 0 15px 0', fontSize: '0.75rem', color: '#fff', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.5px' }}>🔬 Trend Analysis</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '6px' }}>
-                <span style={{ color: '#a0aec0' }}>30Hz Vibration Frequency Field</span>
+                <span style={{ color: '#a0aec0' }}>Low-Frequency Activity</span>
                 <strong style={{ color: '#fff', fontFamily: 'monospace' }}>{Math.round((data?.dspSpectralAnalysis?.lowFreqRumble_30Hz || 0) * 100)}%</strong>
               </div>
               <div style={{ width: '100%', backgroundColor: '#0c0d14', height: '6px', borderRadius: '3px', border: '1px solid #1e2030' }}>
@@ -166,7 +185,7 @@ export default function Cockpit({ data, dynamicAccent }) {
             </div>
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '6px' }}>
-                <span style={{ color: '#a0aec0' }}>120Hz Resonance Field</span>
+                <span style={{ color: '#a0aec0' }}>Mid-Frequency Activity</span>
                 <strong style={{ color: '#fff', fontFamily: 'monospace' }}>{Math.round((data?.dspSpectralAnalysis?.midFreqHum_120Hz || 0) * 100)}%</strong>
               </div>
               <div style={{ width: '100%', backgroundColor: '#0c0d14', height: '6px', borderRadius: '3px', border: '1px solid #1e2030' }}>
@@ -178,18 +197,18 @@ export default function Cockpit({ data, dynamicAccent }) {
 
         {/* Mathematical Dynamics Calculus Panel */}
         <div style={{ backgroundColor: '#11121d', padding: '22px', borderRadius: '10px', border: '1px solid #1e2030' }}>
-          <h3 style={{ margin: '0 0 15px 0', fontSize: '0.75rem', color: '#fff', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.5px' }}>🔮 Kinetic Waveform Calculus Derivatives</h3>
+          <h3 style={{ margin: '0 0 15px 0', fontSize: '0.75rem', color: '#fff', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.5px' }}>📈 Trend Insights</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontFamily: 'monospace', fontSize: '0.8rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #1e2030' }}>
-              <span style={{ color: '#718096' }}>Velocity Vector (dX/dt):</span> 
+              <span style={{ color: '#718096' }}>Rate of Change:</span> 
               <span style={{ color: dynamicAccent, fontWeight: 'bold' }}>{data?.predictiveAnalytics?.stateVelocity?.toFixed(5) || '0.00000'}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid #1e2030' }}>
-              <span style={{ color: '#718096' }}>Acceleration Vector (d²X/dt²):</span> 
+              <span style={{ color: '#718096' }}>Trend Momentum:</span> 
               <span style={{ color: dynamicAccent, fontWeight: 'bold' }}>{data?.predictiveAnalytics?.stateAcceleration?.toFixed(5) || '0.00000'}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0' }}>
-              <span style={{ color: '#718096' }}>Somatic Alert Boundary Limit:</span> 
+              <span style={{ color: '#718096' }}>Alert Threshold:</span> 
               <span style={{ color: '#fff', fontWeight: 'bold' }}>{Math.round((data?.currentFamilySession?.alertThresholdPreference || 0) * 100)}%</span>
             </div>
           </div>
@@ -198,20 +217,20 @@ export default function Cockpit({ data, dynamicAccent }) {
 
       {/* Relational Database Memory Event Deck */}
       <section style={{ backgroundColor: '#11121d', borderRadius: '12px', border: '1px solid #1e2030', padding: '22px' }}>
-        <h3 style={{ fontSize: '0.75rem', color: '#fff', margin: '0 0 15px 0', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.5px' }}>🗄️ Relational Memory Log Deck (Disk Storage)</h3>
+        <h3 style={{ margin: '0 0 15px 0', fontSize: '0.75rem', color: '#fff', textTransform: 'uppercase', fontFamily: 'monospace', letterSpacing: '0.5px' }}>🗄️ Monitoring History</h3>
         {!data?.historicalFamilyLogs || data.historicalFamilyLogs.length === 0 ? (
           <div style={{ padding: '15px 0', color: '#4a5568', fontFamily: 'monospace', fontSize: '0.8rem', textAlign: 'center' }}>
-            No telemetry boundary deviations logged to persistent data storage file.
+            Monitoring history is clear.
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', fontSize: '0.8rem', fontFamily: 'monospace', textAlign: 'left', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ color: '#718096', borderBottom: '2px solid #1e2030' }}>
-                  <th style={{ padding: '10px' }}>TIMESTAMP</th>
-                  <th style={{ padding: '10px' }}>CHANNEL TARGET</th>
-                  <th style={{ padding: '10px' }}>MONITORED CONTEXT GRID EXPANSION</th>
-                  <th style={{ padding: '10px', textAlign: 'right' }}>EXPOSURE THREAT VALUE</th>
+                  <th style={{ padding: '10px' }}>Monitoring Time</th>
+                  <th style={{ padding: '10px' }}>Monitored Profile</th>
+                  <th style={{ padding: '10px' }}>Environment</th>
+                  <th style={{ padding: '10px', textAlign: 'right' }}>Risk Level</th>
                 </tr>
               </thead>
               <tbody>

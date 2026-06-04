@@ -1,6 +1,17 @@
 import React from 'react';
 
-export default function Sidebar({ data, selectedSlotUid, setSelectedSlotUid, currentTab, setCurrentTab, handleTermination }) {
+export default function Sidebar({ 
+  data, 
+  selectedSlotUid, 
+  setSelectedSlotUid, 
+  currentTab, 
+  setCurrentTab, 
+  handleTermination,
+  // NEW INJECTED PROPS: Pass your active subjects registry tracking state down here
+  subjects = [], 
+  selectedSubjectId, 
+  setSelectedSubjectId 
+}) {
   return (
     <aside style={{ width: '275px', backgroundColor: '#11121d', borderRight: '1px solid #1e2030', display: 'flex', flexDirection: 'column', padding: '25px 0', justifyContent: 'space-between' }}>
       <div>
@@ -15,13 +26,41 @@ export default function Sidebar({ data, selectedSlotUid, setSelectedSlotUid, cur
           <span style={{ fontSize: '0.65rem', color: '#00ffcc', backgroundColor: 'rgba(0,255,204,0.07)', padding: '2px 8px', borderRadius: '4px', display: 'inline-block', marginTop: '6px', fontWeight: 'bold', fontFamily: 'monospace' }}>VERIFIED_LAB_PROVISIONAL</span>
         </div>
 
+        {/* UPGRADED ADAPTIVE SELECTOR BLOCK */}
         <div style={{ padding: '0 20px', marginBottom: '20px' }}>
-          <label style={{ display: 'block', fontSize: '0.65rem', color: '#718096', fontWeight: 'bold', marginBottom: '8px' }}>TUNED SYSTEM HARDWARE SLOT</label>
-          <select value={selectedSlotUid} onChange={(e) => setSelectedSlotUid(e.target.value)} style={{ width: '100%', backgroundColor: '#0c0d14', border: '1px solid #1e2030', color: '#fff', padding: '10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}>
-            {data?.allSlots && Object.values(data.allSlots).map((slot) => (
-              <option key={slot.uid} value={slot.uid}>{slot.name} ({slot.uid})</option>
-            ))}
-          </select>
+          {currentTab === 'Cockpit' && subjects.length > 0 ? (
+            <>
+              <label style={{ display: 'block', fontSize: '0.65rem', color: '#00ffcc', fontWeight: 'bold', marginBottom: '8px', letterSpacing: '0.5px' }}>
+                MONITORED HUMAN SUBJECT
+              </label>
+              <select 
+                value={selectedSubjectId} 
+                onChange={(e) => setSelectedSubjectId(e.target.value)} 
+                style={{ width: '100%', backgroundColor: '#0c0d14', border: '1px solid #1e2030', color: '#fff', padding: '10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}
+              >
+                {subjects.map((subject) => (
+                  <option key={subject._id} value={subject._id}>
+                    {subject.name} — [{subject.profileCategory}]
+                  </option>
+                ))}
+              </select>
+            </>
+          ) : (
+            <>
+              <label style={{ display: 'block', fontSize: '0.65rem', color: '#718096', fontWeight: 'bold', marginBottom: '8px' }}>
+                TUNED SYSTEM HARDWARE SLOT
+              </label>
+              <select 
+                value={selectedSlotUid} 
+                onChange={(e) => setSelectedSlotUid(e.target.value)} 
+                style={{ width: '100%', backgroundColor: '#0c0d14', border: '1px solid #1e2030', color: '#fff', padding: '10px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' }}
+              >
+                {data?.allSlots && Object.values(data.allSlots).map((slot) => (
+                  <option key={slot.uid} value={slot.uid}>{slot.name} ({slot.uid})</option>
+                ))}
+              </select>
+            </>
+          )}
         </div>
 
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '0 15px' }}>
