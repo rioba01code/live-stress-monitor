@@ -18,12 +18,11 @@ const PORT = process.env.PORT || 5001;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 // =========================================================================
-// CROSS-ORIGIN RESOURCE SHARING (CORS) SECURITY POLICY
 // =========================================================================
 const allowedOriginsMatrix = [
-  'https://neurocity-ai.vercel.app', // Your live Vercel frontend domain
   'http://localhost:5173',           // Local Vite development server
-  'http://localhost:3000'            // Local Create React App fallback channel
+  'http://localhost:3000',           // Local Create React App fallback channel
+  'https://live-stress-monitor.vercel.app' // Your live Vercel backend URL
 ];
 
 app.use(cors({
@@ -31,17 +30,25 @@ app.use(cors({
     // Allows server-to-server or development tool testing (like Postman or curl)
     if (!origin) return callback(null, true);
     
-    if (allowedOriginsMatrix.indexOf(origin) !== -1) {
+    // Explicit match or dynamically allow any Vercel domain matching your live project structure
+    if (
+      allowedOriginsMatrix.indexOf(origin) !== -1 || 
+      origin.includes('live-stress-monitor') || 
+      origin.includes('vercel.app')
+    ) {
       return callback(null, true);
     } else {
-      const corsViolationMessage = `CORS Security Exception: Inbound origin '${origin}' denied by system policy frameworks.`;
+      const corsViolationMessage = `CORS Security Exception: Inbound origin '${origin}' denied by AkiliAmani system policy frameworks.`;
       return callback(new Error(corsViolationMessage), false);
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
+
+// Handle preflight options requests natively across all endpoints
+app.options('*', cors());
 app.use(express.json());
 
 // =========================================================================
