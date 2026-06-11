@@ -32,7 +32,7 @@ export default function Sidebar({
     if (
       nameLower.includes("brian") || 
       nameLower.includes("mary") || 
-      nameLower.includes("james") || 
+      nameLower.includes("unassigned") || 
       nameLower.includes("unassigned")
     ) {
       return "[Available Profile Slot]";
@@ -58,10 +58,10 @@ export default function Sidebar({
             <path d="M12 11V7" stroke="#38bdf8" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="1 2" />
           </svg>
           <h2 style={{ color: '#fff', margin: '0', fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.5px' }}>
-            NeuroCity AI
+            AkiliAmani
           </h2>
           <span style={{ fontSize: '0.6rem', color: '#718096', letterSpacing: '1px', fontWeight: 'bold', display: 'block', marginTop: '4px', textTransform: 'uppercase' }}>
-            Predictive Health Systems
+            Your Healty Mind Partner
           </span>
         </div>
 
@@ -132,7 +132,7 @@ export default function Sidebar({
             📊 Live Health Dashboard
           </button>
           <button onClick={() => setCurrentTab('Registry')} style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '12px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem', textAlign: 'left', backgroundColor: currentTab === 'Registry' ? 'rgba(0, 255, 204, 0.08)' : 'transparent', color: currentTab === 'Registry' ? '#00ffcc' : '#718096', transition: 'all 0.2s ease' }}>
-            👥 Patient Registry
+            👥 Profile Registry
           </button>
         </nav>
       </div>

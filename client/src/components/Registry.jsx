@@ -34,7 +34,7 @@ export default function Registry({ authToken, dynamicAccent }) {
       {/* --- HEADER TITLE SECTION --- */}
       <div style={{ marginBottom: '25px' }}>
         <h3 style={{ margin: '0 0 6px 0', color: '#fff', fontSize: '1.2rem', fontWeight: '700' }}>
-          👥 Patient Registry Management
+          👥 Profile Registry Management
         </h3>
         <p style={{ margin: '0', fontSize: '0.8rem', color: '#718096', lineHeight: '1.4' }}>
           Set up user accounts, customize monitoring locations, and set personalized alert triggers.
@@ -61,7 +61,7 @@ export default function Registry({ authToken, dynamicAccent }) {
         {/* Patient Name Input */}
         <div>
           <label style={{ display: 'block', fontSize: '0.7rem', color: '#718096', fontWeight: 'bold', marginBottom: '6px', letterSpacing: '0.5px' }}>
-            PATIENT NAME
+            PROFILE NAME
           </label>
           <input type="text" required value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="e.g. John Doe" style={{ width: '96%', backgroundColor: '#0c0d14', border: '1px solid #2d3142', color: '#fff', padding: '12px', borderRadius: '8px', fontSize: '0.85rem', outline: 'none' }} />
         </div>

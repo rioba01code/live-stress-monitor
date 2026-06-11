@@ -1,8 +1,7 @@
 // Dynamic Base URL allocation based on execution environment
 // Pulls from Vite (.env.production VITE_API_URL) or Create React App (REACT_APP_API_URL)
-const BASE_URL = import.meta.env?.VITE_API_URL || 
-                 process.env.REACT_APP_API_URL || 
-                 'http://localhost:5001';
+// Dynamic Base URL allocation safely isolated for the Vite build pipeline
+const BASE_URL = import.meta.env?.VITE_API_URL || 'http://localhost:5001';
 
 const handleResponse = async (response) => {
   if (response.status === 401 || response.status === 403) {
