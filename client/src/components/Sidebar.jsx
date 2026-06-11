@@ -61,7 +61,7 @@ export default function Sidebar({
             AkiliAmani
           </h2>
           <span style={{ fontSize: '0.6rem', color: '#718096', letterSpacing: '1px', fontWeight: 'bold', display: 'block', marginTop: '4px', textTransform: 'uppercase' }}>
-            Your Healty Mind Partner
+            Your Healthy Mind Partner
           </span>
         </div>
 

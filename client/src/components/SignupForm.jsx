@@ -79,7 +79,7 @@ export default function SignupForm({
           onClick={toggleMode} 
           style={{ background: 'none', border: 'none', color: '#00ffcc', cursor: 'pointer', fontWeight: 'bold', marginLeft: '6px' }}
         >
-          Return to Login
+          Return to Log in
         </button>
       </div>
     </form>

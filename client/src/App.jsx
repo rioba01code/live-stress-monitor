@@ -134,8 +134,8 @@ export default function App() {
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#0c0d14', color: '#cbd5e0', fontFamily: 'system-ui, sans-serif' }}>
         <div style={{ width: '100%', maxWidth: '420px', backgroundColor: '#11121d', padding: '35px', borderRadius: '16px', border: '1px solid #1e2030', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
           <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-            <h1 style={{ color: '#fff', fontSize: '1.8rem', margin: '0 0 5px 0', fontWeight: '800', letterSpacing: '-0.5px' }}>NeuroCity AI</h1>
-            <span style={{ fontSize: '0.75rem', color: '#00ffcc', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Patient Management Portal</span>
+            <h1 style={{ color: '#fff', fontSize: '1.8rem', margin: '0 0 5px 0', fontWeight: '800', letterSpacing: '-0.5px' }}>AkiliPeace</h1>
+            <span style={{ fontSize: '0.75rem', color: '#00ffcc', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Your mental Health Patner</span>
           </div>
           {authMode === 'login' ? (
             <LoginForm email={email} setEmail={setEmail} password={password} setPassword={setPassword} onSubmit={handleAuthSubmit} toggleMode={() => setAuthMode('signup')} />
