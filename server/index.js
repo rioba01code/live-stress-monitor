@@ -17,7 +17,31 @@ const PORT = process.env.PORT || 5001;
 // Cryptographic Security Secrets
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-app.use(cors());
+// =========================================================================
+// CROSS-ORIGIN RESOURCE SHARING (CORS) SECURITY POLICY
+// =========================================================================
+const allowedOriginsMatrix = [
+  'https://neurocity-ai.vercel.app', // Your live Vercel frontend domain
+  'http://localhost:5173',           // Local Vite development server
+  'http://localhost:3000'            // Local Create React App fallback channel
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allows server-to-server or development tool testing (like Postman or curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOriginsMatrix.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      const corsViolationMessage = `CORS Security Exception: Inbound origin '${origin}' denied by system policy frameworks.`;
+      return callback(new Error(corsViolationMessage), false);
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
 app.use(express.json());
 
 // =========================================================================
