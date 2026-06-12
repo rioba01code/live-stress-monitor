@@ -58,10 +58,10 @@ export default function Sidebar({
             <path d="M12 11V7" stroke="#38bdf8" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="1 2" />
           </svg>
           <h2 style={{ color: '#fff', margin: '0', fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.5px' }}>
-            AkiliAmani
+            AkiliPeace
           </h2>
           <span style={{ fontSize: '0.6rem', color: '#718096', letterSpacing: '1px', fontWeight: 'bold', display: 'block', marginTop: '4px', textTransform: 'uppercase' }}>
-            Your Healthy Mind Partner
+            Your Mental Health Partner
           </span>
         </div>
 

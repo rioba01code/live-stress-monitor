@@ -18,11 +18,12 @@ const PORT = process.env.PORT || 5001;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 // =========================================================================
+// CROSS-ORIGIN RESOURCE SHARING (CORS) SECURITY POLICY
 // =========================================================================
 const allowedOriginsMatrix = [
+  'https://neurocity-ai.vercel.app', // Your live Vercel frontend domain
   'http://localhost:5173',           // Local Vite development server
-  'http://localhost:3000',           // Local Create React App fallback channel
-  'https://live-stress-monitor.vercel.app' // Your live Vercel backend URL
+  'http://localhost:3000'            // Local Create React App fallback channel
 ];
 
 app.use(cors({
@@ -30,25 +31,39 @@ app.use(cors({
     // Allows server-to-server or development tool testing (like Postman or curl)
     if (!origin) return callback(null, true);
     
-    // Explicit match or dynamically allow any Vercel domain matching your live project structure
-    if (
-      allowedOriginsMatrix.indexOf(origin) !== -1 || 
-      origin.includes('live-stress-monitor') || 
-      origin.includes('vercel.app')
-    ) {
+    if (allowedOriginsMatrix.indexOf(origin) !== -1) {
       return callback(null, true);
     } else {
-      const corsViolationMessage = `CORS Security Exception: Inbound origin '${origin}' denied by AkiliAmani system policy frameworks.`;
+      const corsViolationMessage = `CORS Security Exception: Inbound origin '${origin}' denied by system policy frameworks.`;
       return callback(new Error(corsViolationMessage), false);
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+}));
+//regex-compliant handler
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    
+    if (allowedOriginsMatrix.indexOf(origin) !== -1) {
+      return callback(null, true);
+    } else {
+      const corsViolationMessage = `CORS Security Exception: Inbound origin '${origin}' denied by system policy frameworks.`;
+      return callback(new Error(corsViolationMessage), false);
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Included OPTIONS in the secure method matrix
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 
-// Handle preflight options requests natively across all endpoints
-app.options('*', cors());
+// Safe regex-driven options pre-flight route to clear Vercel's path-to-regexp engine
+app.options(/(.*)/, (req, res) => {
+  res.sendStatus(200);
+});
+
 app.use(express.json());
 
 // =========================================================================
