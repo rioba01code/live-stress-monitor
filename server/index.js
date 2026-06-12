@@ -68,7 +68,7 @@ app.options(/(.*)/, (req, res) => {
 app.use(express.json());
 
 // =========================================================================
-// MONGO DB CONNECTION CONFIGURATION
+// SERVERLESS MONGO DB CONNECTION CONFIGURATION (CACHED LAYER)
 // =========================================================================
 const mongoURI = process.env.MONGO_URI;
 
@@ -77,19 +77,35 @@ if (!mongoURI) {
     process.exit(1);
 }
 
-mongoose.connect(mongoURI)
-.then(() => {
-    console.log('🔌 [Database Subsystem] Secure cloud pipeline link to MongoDB Atlas verified.');
+// Global caching container to prevent connection leaks across serverless warm boots
+let cachedDbConnection = null;
+
+async function connectToDatabaseSubsystem() {
+    // If a connection is already warm and ready, reuse it instantly
+    if (cachedDbConnection && mongoose.connection.readyState === 1) {
+        return cachedDbConnection;
+    }
+
+    console.log('🔌 [Database Subsystem] Initializing safe serverless connection pipeline...');
+    
+    // Configure optimized serverless timeouts so functions don't hang or race
+    cachedDbConnection = await mongoose.connect(mongoURI, {
+        serverSelectionTimeoutMS: 5000, // 5 seconds timeout limit to fail fast
+        socketTimeoutMS: 45000,
+        bufferCommands: false           // Disable command buffering to catch connection drops early
+    });
+    
+    console.log('🚀 [Database Subsystem] Secure cloud pipeline link to MongoDB Atlas verified.');
     console.log('🚀 [Database Subsystem] Cluster Instance: cluster0.m1ktsbv.mongodb.net');
-})
-.catch(err => {
-    console.error('❌ [Database Subsystem] Cloud Handshake Fault!');
-    console.error('👉 Diagnostic Details:', err.message || err);
-});
+    return cachedDbConnection;
+}
 
 // Auto-Seeding Database Hardware Slot Allocations upon initial boot state
 async function verifyAndSeedHardwareMatrix() {
   try {
+    // Force wait until the serverless instance establishes a solid database path
+    await connectToDatabaseSubsystem();
+    
     const slotCount = await HardwareSlot.countDocuments();
     if (slotCount === 0) {
       const standardMatrix = [
@@ -112,9 +128,8 @@ async function verifyAndSeedHardwareMatrix() {
   }
 }
 
-mongoose.connection.once('open', () => {
-  verifyAndSeedHardwareMatrix();
-});
+// Trigger initial seed check on deployment startup safely
+verifyAndSeedHardwareMatrix();
 
 // =========================================================================
 // CRITICAL CRYPTOGRAPHIC GATEKEEPER MIDDLEWARE
@@ -176,6 +191,9 @@ app.post('/api/auth/signup', async (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   try {
+    // 🔌 Force wait until serverless database connection is established
+    await connectToDatabaseSubsystem();
+
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ error: 'Credentials Missing from incoming transaction packet.' });
 
