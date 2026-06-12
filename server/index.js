@@ -21,9 +21,10 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 // CROSS-ORIGIN RESOURCE SHARING (CORS) SECURITY POLICY
 // =========================================================================
 const allowedOriginsMatrix = [
-  'https://neurocity-ai.vercel.app', // Your live Vercel frontend domain
-  'http://localhost:5173',           // Local Vite development server
-  'http://localhost:3000'            // Local Create React App fallback channel
+  'https://neurocity-ai.vercel.app', 
+  'https://live-stress-monitor-5fsu.vercel.app', // ✔ Live production interface added
+  'http://localhost:5173',           
+  'http://localhost:3000'            
 ];
 
 app.use(cors({
